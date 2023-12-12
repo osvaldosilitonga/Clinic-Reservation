@@ -2,9 +2,9 @@ package main
 
 import (
 	"clinic/helpers"
+	"clinic/router"
 	"fmt"
 	"log"
-	"net/http"
 	"os"
 
 	"github.com/go-playground/validator"
@@ -26,9 +26,7 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Validator = &helpers.CustomValidator{Validator: validator.New()}
 
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
+	router.Routes(e)
 
 	PORT := os.Getenv("SERVER_PORT")
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", PORT)))

@@ -3,14 +3,14 @@ package entity
 import "time"
 
 type Patients struct {
-	ID        int       `json:"id"`
-	Email     string    `json:"email"`
-	Password  string    `json:"password"`
-	Name      string    `json:"name"`
-	Phone     string    `json:"phone"`
-	Gender    string    `json:"gender"`
-	Address   string    `json:"address"`
-	Birth     time.Time `json:"birth"`
-	CreatedAt int64     `json:"created_at"`
-	UpdatedAt int64     `json:"updated_at"`
+	ID        int       `json:"id,omitempty"`
+	Email     string    `json:"email,omitempty"`
+	Password  string    `json:"password,omitempty"`
+	Name      string    `json:"name,omitempty"`
+	Phone     string    `json:"phone,omitempty"`
+	Gender    string    `json:"gender,omitempty"`
+	Address   string    `json:"address,omitempty"`
+	Birth     time.Time `json:"birth,omitempty"`
+	CreatedAt int64     `json:"created_at,omitempty"`
+	UpdatedAt int64     `json:"updated_at,omitempty"`
 }
