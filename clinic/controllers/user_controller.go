@@ -1,20 +1,24 @@
 package controllers
 
 import (
+	"clinic/repositories"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
 )
 
-type User interface {
-	Register(c echo.Context) error
-}
-
 type UserImpl struct {
+	PatientRepo repositories.Patient
 }
 
-func NewUserController() User {
-	return &UserImpl{}
+type UserConfig struct {
+	PatientRepo repositories.Patient
+}
+
+func NewUserController(ucc *UserConfig) User {
+	return &UserImpl{
+		PatientRepo: ucc.PatientRepo,
+	}
 }
 
 func (u *UserImpl) Register(c echo.Context) error {
