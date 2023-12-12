@@ -25,9 +25,10 @@ func Routes(e *echo.Echo) {
 		UserService: userService,
 	})
 
+	// Routes
 	v1 := e.Group("/api/v1")
 	{
-		v1.GET("/register", userController.Register)
+		v1.POST("/register", userController.Register)
 	}
 
 }

@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"clinic/models/entity"
+	"context"
 
 	"gorm.io/gorm"
 )
@@ -16,18 +17,18 @@ func NewPatientRepository(db *gorm.DB) Patient {
 	}
 }
 
-func (p *PatientImpl) Save(d *entity.Patients) (*entity.Patients, error) {
-	res := p.DB.Create(p).Scan(&d)
+func (p *PatientImpl) Save(c context.Context, d *entity.Patients) (*gorm.DB, error) {
+	res := p.DB.WithContext(c).Create(&d)
 	if res.Error != nil {
-		return nil, res.Error
+		return res, res.Error
 	}
 
-	return d, nil
+	return res, nil
 }
 
-func (p *PatientImpl) FindByID(id int) (*entity.Patients, error) {
+func (p *PatientImpl) FindByID(c context.Context, id int) (*entity.Patients, error) {
 	var d entity.Patients
-	res := p.DB.Where("id = ?", id).First(&d)
+	res := p.DB.WithContext(c).Where("id = ?", id).First(&d)
 	if res.Error != nil {
 		return nil, res.Error
 	}
@@ -35,9 +36,9 @@ func (p *PatientImpl) FindByID(id int) (*entity.Patients, error) {
 	return &d, nil
 }
 
-func (p *PatientImpl) List() ([]*entity.Patients, error) {
+func (p *PatientImpl) List(c context.Context) ([]*entity.Patients, error) {
 	var d []*entity.Patients
-	res := p.DB.Find(&d)
+	res := p.DB.WithContext(c).Find(&d)
 	if res.Error != nil {
 		return nil, res.Error
 	}
@@ -45,8 +46,8 @@ func (p *PatientImpl) List() ([]*entity.Patients, error) {
 	return d, nil
 }
 
-func (p *PatientImpl) Update(d *entity.Patients) (*entity.Patients, error) {
-	res := p.DB.Save(&d)
+func (p *PatientImpl) Update(c context.Context, d *entity.Patients) (*entity.Patients, error) {
+	res := p.DB.WithContext(c).Save(&d)
 	if res.Error != nil {
 		return nil, res.Error
 	}
@@ -54,8 +55,8 @@ func (p *PatientImpl) Update(d *entity.Patients) (*entity.Patients, error) {
 	return d, nil
 }
 
-func (p *PatientImpl) Delete(id int) error {
-	res := p.DB.Delete(&entity.Patients{}, id)
+func (p *PatientImpl) Delete(c context.Context, id int) error {
+	res := p.DB.WithContext(c).Delete(&entity.Patients{}, id)
 	if res.Error != nil {
 		return res.Error
 	}

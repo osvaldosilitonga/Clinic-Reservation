@@ -1,8 +1,10 @@
 package controllers
 
 import (
+	"clinic/helpers"
+	"clinic/models/dto"
 	"clinic/services"
-	"net/http"
+	"clinic/utils"
 
 	"github.com/labstack/echo/v4"
 )
@@ -22,7 +24,18 @@ func NewUserController(uc *UserConfig) User {
 }
 
 func (u *UserImpl) Register(c echo.Context) error {
-	return c.JSON(http.StatusOK, echo.Map{
-		"message": "Hello World",
-	})
+	body := dto.UserRegisterReq{}
+	if err := c.Bind(&body); err != nil {
+		return utils.ErrorMessage(c, &utils.ApiBadRequest, err.Error())
+	}
+	if err := c.Validate(&body); err != nil {
+		return utils.ErrorMessage(c, &utils.ApiBadRequest, err.Error())
+	}
+
+	user, code, err := u.UserService.Register(c.Request().Context(), &body)
+	if err != nil {
+		return helpers.ErrorCheck(c, code, err.Error())
+	}
+
+	return utils.SuccessMessage(c, &utils.ApiCreate, user)
 }

@@ -1,7 +1,7 @@
 package entity
 
 type Appointments struct {
-	ID               int    `json:"id"`
+	ID               uint   `json:"id"`
 	PatientEmail     string `json:"patient_email"`
 	ClinicID         int    `json:"clinic_id"`
 	EmployeeUsername string `json:"employee_username"`

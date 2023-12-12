@@ -6,5 +6,5 @@ import (
 )
 
 type User interface {
-	Register(ctx context.Context, d *dto.User) error
+	Register(ctx context.Context, d *dto.UserRegisterReq) (*dto.UserResponse, int, error)
 }

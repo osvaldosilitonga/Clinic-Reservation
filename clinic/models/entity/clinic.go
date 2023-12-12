@@ -1,7 +1,7 @@
 package entity
 
 type Clinics struct {
-	ID        int    `json:"id"`
+	ID        uint   `json:"id"`
 	Name      string `json:"name"`
 	Address   string `json:"address"`
 	Slot      int    `json:"slot"`
