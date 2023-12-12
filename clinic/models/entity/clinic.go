@@ -5,6 +5,6 @@ type Clinics struct {
 	Name      string `json:"name"`
 	Address   string `json:"address"`
 	Slot      int    `json:"slot"`
-	CreatedAt string `json:"created_at"`
-	UpdatedAt string `json:"updated_at"`
+	CreatedAt int64  `json:"created_at"`
+	UpdatedAt int64  `json:"updated_at"`
 }

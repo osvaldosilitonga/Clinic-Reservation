@@ -11,6 +11,6 @@ type Patients struct {
 	Gender    string    `json:"gender"`
 	Address   string    `json:"address"`
 	Birth     time.Time `json:"birth"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	CreatedAt int64     `json:"created_at"`
+	UpdatedAt int64     `json:"updated_at"`
 }

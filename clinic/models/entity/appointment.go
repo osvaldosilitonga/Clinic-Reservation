@@ -10,6 +10,6 @@ type Appointments struct {
 	Status           string `json:"status"`
 	Price            int    `json:"price"`
 	Description      string `json:"description"`
-	CreatedAt        string `json:"created_at"`
-	UpdatedAt        string `json:"updated_at"`
+	CreatedAt        int64  `json:"created_at"`
+	UpdatedAt        int64  `json:"updated_at"`
 }
