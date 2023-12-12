@@ -1,23 +1,23 @@
 package controllers
 
 import (
-	"clinic/repositories"
+	"clinic/services"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
 )
 
 type UserImpl struct {
-	PatientRepo repositories.Patient
+	UserService services.User
 }
 
 type UserConfig struct {
-	PatientRepo repositories.Patient
+	UserService services.User
 }
 
-func NewUserController(ucc *UserConfig) User {
+func NewUserController(uc *UserConfig) User {
 	return &UserImpl{
-		PatientRepo: ucc.PatientRepo,
+		UserService: uc.UserService,
 	}
 }
 
