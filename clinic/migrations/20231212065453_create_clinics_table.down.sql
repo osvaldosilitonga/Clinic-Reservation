@@ -1,1 +1,1 @@
-DROP TABLE clinics;
+DROP TABLE IF EXISTS clinics;

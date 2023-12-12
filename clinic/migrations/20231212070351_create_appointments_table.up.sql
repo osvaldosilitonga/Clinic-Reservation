@@ -1,4 +1,4 @@
-CREATE TABLE appointments (
+CREATE TABLE IF NOT EXISTS appointments (
   id SERIAL PRIMARY KEY,
   patient_email VARCHAR(255) NOT NULL REFERENCES patients(email),
   clinic_id INT NOT NULL REFERENCES clinics(id),
