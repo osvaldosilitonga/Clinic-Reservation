@@ -10,6 +10,11 @@ type UserRegisterReq struct {
 	Birth    string `json:"birth" validate:"required,min=10,max=10"`
 }
 
+type UserLoginReq struct {
+	Email    string `json:"email" validate:"required,email"`
+	Password string `json:"password" validate:"required,min=6,max=32"`
+}
+
 type UserResponse struct {
 	Email   string `json:"email"`
 	Name    string `json:"name"`
@@ -17,4 +22,9 @@ type UserResponse struct {
 	Gender  string `json:"gender"`
 	Address string `json:"address"`
 	Birth   string `json:"birth"`
+}
+
+type UserLoginResponse struct {
+	Email string `json:"email"`
+	Token string `json:"token"`
 }

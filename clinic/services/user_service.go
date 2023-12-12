@@ -67,3 +67,22 @@ func (u *UserImpl) Register(c context.Context, d *dto.UserRegisterReq) (*dto.Use
 
 	return &response, http.StatusCreated, nil
 }
+
+func (u *UserImpl) Login(c context.Context, d *dto.UserLoginReq) (*entity.Patients, int, error) {
+	ctx, cancel := context.WithTimeout(c, 5*time.Second)
+	defer cancel()
+
+	user, err := u.PatientRepo.FindByEmail(ctx, d.Email)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, http.StatusNotFound, err
+		}
+		return nil, http.StatusInternalServerError, err
+	}
+
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(d.Password)); err != nil {
+		return nil, http.StatusUnauthorized, err
+	}
+
+	return user, http.StatusOK, nil
+}

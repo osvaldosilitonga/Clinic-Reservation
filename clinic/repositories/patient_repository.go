@@ -36,6 +36,16 @@ func (p *PatientImpl) FindByID(c context.Context, id int) (*entity.Patients, err
 	return &d, nil
 }
 
+func (p *PatientImpl) FindByEmail(c context.Context, email string) (*entity.Patients, error) {
+	var d entity.Patients
+	res := p.DB.WithContext(c).Where("email = ?", email).First(&d)
+	if res.Error != nil {
+		return nil, res.Error
+	}
+
+	return &d, nil
+}
+
 func (p *PatientImpl) List(c context.Context) ([]*entity.Patients, error) {
 	var d []*entity.Patients
 	res := p.DB.WithContext(c).Find(&d)

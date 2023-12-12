@@ -5,7 +5,7 @@ import "time"
 type Patients struct {
 	ID        uint      `json:"id,omitempty"`
 	Email     string    `json:"email,omitempty"`
-	Password  string    `json:"password,omitempty"`
+	Password  string    `json:"-"`
 	Name      string    `json:"name,omitempty"`
 	Phone     string    `json:"phone,omitempty"`
 	Gender    string    `json:"gender,omitempty"`
