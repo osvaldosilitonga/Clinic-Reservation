@@ -17,7 +17,7 @@ type Employee interface {
 }
 
 type Clinic interface {
-	Create(ctx context.Context, d *dto.ClinicReq) (*entity.Clinics, int, error)
+	Create(ctx context.Context, d *dto.ClinicReq) (*dto.ClinicRes, int, error)
 	List(ctx context.Context) ([]dto.ClinicRes, int, error)
 	FindByID(ctx context.Context, id int) (*dto.ClinicRes, int, error)
 	Update(ctx context.Context, d *dto.ClinicUpdateReq, id int) (*dto.ClinicRes, int, error)

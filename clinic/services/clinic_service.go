@@ -23,7 +23,7 @@ func NewClinicService(cr repositories.Clinic) Clinic {
 	}
 }
 
-func (cl *ClinicImpl) Create(ctx context.Context, d *dto.ClinicReq) (*entity.Clinics, int, error) {
+func (cl *ClinicImpl) Create(ctx context.Context, d *dto.ClinicReq) (*dto.ClinicRes, int, error) {
 	clinic := &entity.Clinics{
 		Name:    d.Name,
 		Address: d.Address,
@@ -39,7 +39,17 @@ func (cl *ClinicImpl) Create(ctx context.Context, d *dto.ClinicReq) (*entity.Cli
 		return nil, http.StatusInternalServerError, err
 	}
 
-	return clinic, http.StatusCreated, nil
+	res := dto.ClinicRes{
+		ID:        clinic.ID,
+		Name:      clinic.Name,
+		Phone:     clinic.Phone,
+		Address:   clinic.Address,
+		Slot:      clinic.Slot,
+		CreatedAt: helpers.ConvertTimeLocal(clinic.CreatedAt),
+		UpdatedAt: helpers.ConvertTimeLocal(clinic.UpdatedAt),
+	}
+
+	return &res, http.StatusCreated, nil
 }
 
 func (cl *ClinicImpl) List(ctx context.Context) ([]dto.ClinicRes, int, error) {
