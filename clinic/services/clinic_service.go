@@ -6,8 +6,11 @@ import (
 	"clinic/models/entity"
 	"clinic/repositories"
 	"context"
+	"errors"
 	"net/http"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type ClinicImpl struct {
@@ -64,4 +67,27 @@ func (cl *ClinicImpl) List(ctx context.Context) ([]dto.ClinicRes, int, error) {
 	}
 
 	return res, http.StatusOK, nil
+}
+
+func (cl *ClinicImpl) FindByID(ctx context.Context, id int) (*dto.ClinicRes, int, error) {
+	clinic, err := cl.ClinicRepo.FindByID(ctx, id)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, http.StatusNotFound, err
+		}
+
+		return nil, http.StatusInternalServerError, err
+	}
+
+	res := dto.ClinicRes{
+		ID:        clinic.ID,
+		Name:      clinic.Name,
+		Phone:     clinic.Phone,
+		Address:   clinic.Address,
+		Slot:      clinic.Slot,
+		CreatedAt: helpers.ConvertTimeLocal(clinic.CreatedAt),
+		UpdatedAt: helpers.ConvertTimeLocal(clinic.UpdatedAt),
+	}
+
+	return &res, http.StatusOK, nil
 }

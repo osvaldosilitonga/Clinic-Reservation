@@ -46,6 +46,7 @@ func Routes(e *echo.Echo) {
 	{
 		clinic.POST("", clinicController.CreateClinic)
 		clinic.GET("", clinicController.List)
+		clinic.GET("/:id", clinicController.FindByID)
 	}
 
 }

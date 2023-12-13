@@ -5,6 +5,7 @@ import (
 	"clinic/models/dto"
 	"clinic/services"
 	"clinic/utils"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -43,4 +44,19 @@ func (cl *ClinicImpl) List(c echo.Context) error {
 	}
 
 	return utils.SuccessMessage(c, &utils.ApiOk, clinics)
+}
+
+func (cl *ClinicImpl) FindByID(c echo.Context) error {
+	param := c.Param("id")
+	id, err := strconv.Atoi(param)
+	if err != nil {
+		return utils.ErrorMessage(c, &utils.ApiBadRequest, "invalid param id")
+	}
+
+	clinic, status, err := cl.ClinicService.FindByID(c.Request().Context(), id)
+	if err != nil {
+		return helpers.ErrorCheck(c, status, err.Error())
+	}
+
+	return utils.SuccessMessage(c, &utils.ApiOk, clinic)
 }
