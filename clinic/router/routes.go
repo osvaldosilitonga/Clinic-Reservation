@@ -15,18 +15,21 @@ func Routes(e *echo.Echo) {
 	// Repositories
 	patientRepository := repositories.NewPatientRepository(db)
 	employeeRepository := repositories.NewEmployeeRepository(db)
+	clinicRepository := repositories.NewClinicRepository(db)
 
 	// Services
 	userService := services.NewUserService(&services.UserConfig{
 		PatientRepo: patientRepository,
 	})
 	employeeService := services.NewEmployeeService(employeeRepository)
+	clinicService := services.NewClinicService(clinicRepository)
 
 	// Controllers
 	userController := controllers.NewUserController(&controllers.UserConfig{
 		UserService:     userService,
 		EmployeeService: employeeService,
 	})
+	clinicController := controllers.NewClinicController(clinicService)
 
 	// Routes
 	v1 := e.Group("/api/v1")
@@ -37,6 +40,11 @@ func Routes(e *echo.Echo) {
 
 		v1.POST("/employee/register", userController.EmployeeRegister)
 		v1.POST("/employee/login", userController.EmployeeLogin)
+	}
+
+	clinic := v1.Group("/clinic")
+	{
+		clinic.POST("", clinicController.CreateClinic)
 	}
 
 }

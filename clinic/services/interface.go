@@ -15,3 +15,7 @@ type Employee interface {
 	Register(ctx context.Context, d *dto.EmployeeRegisterReq) (*entity.Employees, int, error)
 	Login(ctx context.Context, d *dto.EmployeeLoginReq) (*entity.Employees, int, error)
 }
+
+type Clinic interface {
+	Create(ctx context.Context, d *dto.ClinicReq) (*entity.Clinics, int, error)
+}

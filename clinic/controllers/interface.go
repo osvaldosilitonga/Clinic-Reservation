@@ -10,3 +10,7 @@ type User interface {
 	EmployeeRegister(c echo.Context) error
 	EmployeeLogin(c echo.Context) error
 }
+
+type Clinic interface {
+	CreateClinic(c echo.Context) error
+}
