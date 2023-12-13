@@ -60,3 +60,31 @@ func (cl *ClinicImpl) FindByID(c echo.Context) error {
 
 	return utils.SuccessMessage(c, &utils.ApiOk, clinic)
 }
+
+func (cl *ClinicImpl) Update(c echo.Context) error {
+
+	param := c.Param("id")
+	id, err := strconv.Atoi(param)
+	if err != nil {
+		return utils.ErrorMessage(c, &utils.ApiBadRequest, "invalid param id")
+	}
+
+	body := dto.ClinicUpdateReq{}
+	if err := c.Bind(&body); err != nil {
+		return utils.ErrorMessage(c, &utils.ApiBadRequest, err.Error())
+	}
+	if err := c.Validate(&body); err != nil {
+		return utils.ErrorMessage(c, &utils.ApiBadRequest, err.Error())
+	}
+
+	if body.Name == "" && body.Phone == "" && body.Address == "" && body.Slot == 0 {
+		return utils.ErrorMessage(c, &utils.ApiBadRequest, "empty request body not allowed")
+	}
+
+	clinic, status, err := cl.ClinicService.Update(c.Request().Context(), &body, id)
+	if err != nil {
+		return helpers.ErrorCheck(c, status, err.Error())
+	}
+
+	return utils.SuccessMessage(c, &utils.ApiUpdate, clinic)
+}

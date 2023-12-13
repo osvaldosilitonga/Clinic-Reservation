@@ -91,3 +91,37 @@ func (cl *ClinicImpl) FindByID(ctx context.Context, id int) (*dto.ClinicRes, int
 
 	return &res, http.StatusOK, nil
 }
+
+func (cl *ClinicImpl) Update(ctx context.Context, d *dto.ClinicUpdateReq, id int) (*dto.ClinicRes, int, error) {
+	clinic := &entity.Clinics{
+		Name:      d.Name,
+		Address:   d.Address,
+		Phone:     d.Phone,
+		Slot:      d.Slot,
+		UpdatedAt: time.Now().UnixMilli(),
+	}
+
+	c, cancel := context.WithTimeout(ctx, 5*time.Second)
+	defer cancel()
+
+	clinic, err := cl.ClinicRepo.Update(c, clinic, id)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, http.StatusNotFound, err
+		}
+
+		return nil, http.StatusInternalServerError, err
+	}
+
+	res := dto.ClinicRes{
+		ID:        clinic.ID,
+		Name:      clinic.Name,
+		Phone:     clinic.Phone,
+		Address:   clinic.Address,
+		Slot:      clinic.Slot,
+		CreatedAt: helpers.ConvertTimeLocal(clinic.CreatedAt),
+		UpdatedAt: helpers.ConvertTimeLocal(clinic.UpdatedAt),
+	}
+
+	return &res, http.StatusOK, nil
+}

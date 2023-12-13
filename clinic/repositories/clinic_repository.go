@@ -45,10 +45,14 @@ func (cl *ClinicImpl) List(c context.Context) ([]*entity.Clinics, error) {
 	return clincs, nil
 }
 
-func (cl *ClinicImpl) Update(c context.Context, d *entity.Clinics) (*entity.Clinics, error) {
-	if err := cl.DB.WithContext(c).Save(d).Error; err != nil {
+func (cl *ClinicImpl) Update(c context.Context, d *entity.Clinics, id int) (*entity.Clinics, error) {
+	if err := cl.DB.WithContext(c).Where("id = ?", id).Updates(&d).Scan(&d).Error; err != nil {
 		return nil, err
 	}
+
+	// if err := cl.DB.WithContext(c).Save(d).Error; err != nil {
+	// 	return nil, err
+	// }
 
 	return d, nil
 }
