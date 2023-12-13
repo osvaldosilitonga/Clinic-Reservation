@@ -15,3 +15,8 @@ type Patient interface {
 	Update(c context.Context, d *entity.Patients) (*entity.Patients, error)
 	Delete(c context.Context, id int) error
 }
+
+type Employee interface {
+	Save(c context.Context, d *entity.Employees) (*entity.Employees, error)
+	FindByUsername(c context.Context, username string) (*entity.Employees, error)
+}

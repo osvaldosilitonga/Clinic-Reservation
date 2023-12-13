@@ -11,16 +11,19 @@ import (
 )
 
 type UserImpl struct {
-	UserService services.User
+	UserService     services.User
+	EmployeeService services.Employee
 }
 
 type UserConfig struct {
-	UserService services.User
+	UserService     services.User
+	EmployeeService services.Employee
 }
 
 func NewUserController(uc *UserConfig) User {
 	return &UserImpl{
-		UserService: uc.UserService,
+		UserService:     uc.UserService,
+		EmployeeService: uc.EmployeeService,
 	}
 }
 
@@ -73,4 +76,21 @@ func (u *UserImpl) Logout(c echo.Context) error {
 	c.SetCookie(cookie)
 
 	return utils.SuccessMessage(c, &utils.ApiOk, "Logout Success. Authorization token has been removed from cookie")
+}
+
+func (u *UserImpl) EmployeeRegister(c echo.Context) error {
+	body := dto.EmployeeRegisterReq{}
+	if err := c.Bind(&body); err != nil {
+		return utils.ErrorMessage(c, &utils.ApiBadRequest, err.Error())
+	}
+	if err := c.Validate(&body); err != nil {
+		return utils.ErrorMessage(c, &utils.ApiBadRequest, err.Error())
+	}
+
+	employee, code, err := u.EmployeeService.Register(c.Request().Context(), &body)
+	if err != nil {
+		return helpers.ErrorCheck(c, code, err.Error())
+	}
+
+	return utils.SuccessMessage(c, &utils.ApiCreate, employee)
 }
