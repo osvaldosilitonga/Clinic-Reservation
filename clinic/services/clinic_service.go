@@ -39,17 +39,9 @@ func (cl *ClinicImpl) Create(ctx context.Context, d *dto.ClinicReq) (*dto.Clinic
 		return nil, http.StatusInternalServerError, err
 	}
 
-	res := dto.ClinicRes{
-		ID:        clinic.ID,
-		Name:      clinic.Name,
-		Phone:     clinic.Phone,
-		Address:   clinic.Address,
-		Slot:      clinic.Slot,
-		CreatedAt: helpers.ConvertTimeLocal(clinic.CreatedAt),
-		UpdatedAt: helpers.ConvertTimeLocal(clinic.UpdatedAt),
-	}
+	res := helpers.ToClinicResponse(clinic)
 
-	return &res, http.StatusCreated, nil
+	return res, http.StatusCreated, nil
 }
 
 func (cl *ClinicImpl) List(ctx context.Context) ([]dto.ClinicRes, int, error) {
@@ -63,15 +55,7 @@ func (cl *ClinicImpl) List(ctx context.Context) ([]dto.ClinicRes, int, error) {
 
 	res := []dto.ClinicRes{}
 	for _, clinic := range clinics {
-		r := dto.ClinicRes{
-			ID:        clinic.ID,
-			Name:      clinic.Name,
-			Phone:     clinic.Phone,
-			Address:   clinic.Address,
-			Slot:      clinic.Slot,
-			CreatedAt: helpers.ConvertTimeLocal(clinic.CreatedAt),
-			UpdatedAt: helpers.ConvertTimeLocal(clinic.UpdatedAt),
-		}
+		r := *helpers.ToClinicResponse(clinic)
 
 		res = append(res, r)
 	}
@@ -80,7 +64,10 @@ func (cl *ClinicImpl) List(ctx context.Context) ([]dto.ClinicRes, int, error) {
 }
 
 func (cl *ClinicImpl) FindByID(ctx context.Context, id int) (*dto.ClinicRes, int, error) {
-	clinic, err := cl.ClinicRepo.FindByID(ctx, id)
+	c, cancel := context.WithTimeout(ctx, 5*time.Second)
+	defer cancel()
+
+	clinic, err := cl.ClinicRepo.FindByID(c, id)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, http.StatusNotFound, err
@@ -89,17 +76,9 @@ func (cl *ClinicImpl) FindByID(ctx context.Context, id int) (*dto.ClinicRes, int
 		return nil, http.StatusInternalServerError, err
 	}
 
-	res := dto.ClinicRes{
-		ID:        clinic.ID,
-		Name:      clinic.Name,
-		Phone:     clinic.Phone,
-		Address:   clinic.Address,
-		Slot:      clinic.Slot,
-		CreatedAt: helpers.ConvertTimeLocal(clinic.CreatedAt),
-		UpdatedAt: helpers.ConvertTimeLocal(clinic.UpdatedAt),
-	}
+	res := helpers.ToClinicResponse(clinic)
 
-	return &res, http.StatusOK, nil
+	return res, http.StatusOK, nil
 }
 
 func (cl *ClinicImpl) Update(ctx context.Context, d *dto.ClinicUpdateReq, id int) (*dto.ClinicRes, int, error) {
@@ -123,17 +102,9 @@ func (cl *ClinicImpl) Update(ctx context.Context, d *dto.ClinicUpdateReq, id int
 		return nil, http.StatusInternalServerError, err
 	}
 
-	res := dto.ClinicRes{
-		ID:        clinic.ID,
-		Name:      clinic.Name,
-		Phone:     clinic.Phone,
-		Address:   clinic.Address,
-		Slot:      clinic.Slot,
-		CreatedAt: helpers.ConvertTimeLocal(clinic.CreatedAt),
-		UpdatedAt: helpers.ConvertTimeLocal(clinic.UpdatedAt),
-	}
+	res := helpers.ToClinicResponse(clinic)
 
-	return &res, http.StatusOK, nil
+	return res, http.StatusOK, nil
 }
 
 func (cl *ClinicImpl) Delete(ctx context.Context, id int) (int, error) {
