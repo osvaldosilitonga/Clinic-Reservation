@@ -13,4 +13,5 @@ type User interface {
 
 type Clinic interface {
 	CreateClinic(c echo.Context) error
+	List(c echo.Context) error
 }

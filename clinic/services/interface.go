@@ -18,4 +18,5 @@ type Employee interface {
 
 type Clinic interface {
 	Create(ctx context.Context, d *dto.ClinicReq) (*entity.Clinics, int, error)
+	List(ctx context.Context) ([]dto.ClinicRes, int, error)
 }

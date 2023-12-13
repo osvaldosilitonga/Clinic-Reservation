@@ -24,6 +24,7 @@ type Employee interface {
 type Clinic interface {
 	Save(c context.Context, d *entity.Clinics) (*entity.Clinics, error)
 	FindByID(c context.Context, id int) (*entity.Clinics, error)
+	List(c context.Context) ([]*entity.Clinics, error)
 	Update(c context.Context, d *entity.Clinics) (*entity.Clinics, error)
 	Delete(c context.Context, id int) error
 }

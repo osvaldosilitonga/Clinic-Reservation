@@ -45,6 +45,7 @@ func Routes(e *echo.Echo) {
 	clinic := v1.Group("/clinic")
 	{
 		clinic.POST("", clinicController.CreateClinic)
+		clinic.GET("", clinicController.List)
 	}
 
 }

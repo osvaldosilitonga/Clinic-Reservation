@@ -35,6 +35,16 @@ func (cl *ClinicImpl) FindByID(c context.Context, id int) (*entity.Clinics, erro
 	return clinc, nil
 }
 
+func (cl *ClinicImpl) List(c context.Context) ([]*entity.Clinics, error) {
+	clincs := []*entity.Clinics{}
+
+	if err := cl.DB.WithContext(c).Find(&clincs).Error; err != nil {
+		return nil, err
+	}
+
+	return clincs, nil
+}
+
 func (cl *ClinicImpl) Update(c context.Context, d *entity.Clinics) (*entity.Clinics, error) {
 	if err := cl.DB.WithContext(c).Save(d).Error; err != nil {
 		return nil, err

@@ -35,3 +35,12 @@ func (cl *ClinicImpl) CreateClinic(c echo.Context) error {
 
 	return utils.SuccessMessage(c, &utils.ApiCreate, clinic)
 }
+
+func (cl *ClinicImpl) List(c echo.Context) error {
+	clinics, status, err := cl.ClinicService.List(c.Request().Context())
+	if err != nil {
+		return helpers.ErrorCheck(c, status, err.Error())
+	}
+
+	return utils.SuccessMessage(c, &utils.ApiOk, clinics)
+}
