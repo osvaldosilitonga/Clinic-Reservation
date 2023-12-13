@@ -94,3 +94,24 @@ func (u *UserImpl) EmployeeRegister(c echo.Context) error {
 
 	return utils.SuccessMessage(c, &utils.ApiCreate, employee)
 }
+
+func (u *UserImpl) EmployeeLogin(c echo.Context) error {
+	body := dto.EmployeeLoginReq{}
+	if err := c.Bind(&body); err != nil {
+		return utils.ErrorMessage(c, &utils.ApiBadRequest, err.Error())
+	}
+	if err := c.Validate(&body); err != nil {
+		return utils.ErrorMessage(c, &utils.ApiBadRequest, err.Error())
+	}
+
+	employee, code, err := u.EmployeeService.Login(c.Request().Context(), &body)
+	if err != nil {
+		return helpers.ErrorCheck(c, code, err.Error())
+	}
+
+	if err := helpers.SignNewJWT(c, int(employee.ID), employee.Username, employee.Role); err != nil {
+		return err
+	}
+
+	return utils.SuccessMessage(c, &utils.ApiOk, "Login Success. Authorization token has been set to cookie")
+}

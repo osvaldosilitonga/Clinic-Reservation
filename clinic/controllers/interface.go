@@ -8,4 +8,5 @@ type User interface {
 	Logout(c echo.Context) error
 
 	EmployeeRegister(c echo.Context) error
+	EmployeeLogin(c echo.Context) error
 }

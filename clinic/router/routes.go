@@ -36,6 +36,7 @@ func Routes(e *echo.Echo) {
 		v1.GET("/logout", userController.Logout)
 
 		v1.POST("/employee/register", userController.EmployeeRegister)
+		v1.POST("/employee/login", userController.EmployeeLogin)
 	}
 
 }

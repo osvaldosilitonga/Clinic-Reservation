@@ -44,3 +44,19 @@ func (e *EmployeeImpl) Register(ctx context.Context, d *dto.EmployeeRegisterReq)
 
 	return res, http.StatusCreated, nil
 }
+
+func (e *EmployeeImpl) Login(ctx context.Context, d *dto.EmployeeLoginReq) (*entity.Employees, int, error) {
+	employee, err := e.EmployeeRepo.FindByUsername(ctx, d.Username)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, http.StatusNotFound, err
+		}
+		return nil, http.StatusInternalServerError, err
+	}
+
+	if err := bcrypt.CompareHashAndPassword([]byte(employee.Password), []byte(d.Password)); err != nil {
+		return nil, http.StatusUnauthorized, err
+	}
+
+	return employee, http.StatusOK, nil
+}
