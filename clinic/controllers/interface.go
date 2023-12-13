@@ -16,4 +16,5 @@ type Clinic interface {
 	List(c echo.Context) error
 	FindByID(c echo.Context) error
 	Update(c echo.Context) error
+	Delete(c echo.Context) error
 }

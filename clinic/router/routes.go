@@ -48,6 +48,7 @@ func Routes(e *echo.Echo) {
 		clinic.GET("", clinicController.List)
 		clinic.GET("/:id", clinicController.FindByID)
 		clinic.PUT("/:id", clinicController.Update)
+		clinic.DELETE("/:id", clinicController.Delete)
 	}
 
 }

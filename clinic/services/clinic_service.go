@@ -125,3 +125,23 @@ func (cl *ClinicImpl) Update(ctx context.Context, d *dto.ClinicUpdateReq, id int
 
 	return &res, http.StatusOK, nil
 }
+
+func (cl *ClinicImpl) Delete(ctx context.Context, id int) (int, error) {
+	c, cancel := context.WithTimeout(ctx, 5*time.Second)
+	defer cancel()
+
+	rows, err := cl.ClinicRepo.Delete(c, id)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return http.StatusNotFound, err
+		}
+
+		return http.StatusInternalServerError, err
+	}
+
+	if rows == 0 {
+		return http.StatusNotFound, errors.New("clinic not found")
+	}
+
+	return http.StatusOK, nil
+}

@@ -57,10 +57,11 @@ func (cl *ClinicImpl) Update(c context.Context, d *entity.Clinics, id int) (*ent
 	return d, nil
 }
 
-func (cl *ClinicImpl) Delete(c context.Context, id int) error {
-	if err := cl.DB.WithContext(c).Where("id = ?", id).Delete(&entity.Clinics{}).Error; err != nil {
-		return err
+func (cl *ClinicImpl) Delete(c context.Context, id int) (int, error) {
+	res := cl.DB.WithContext(c).Where("id = ?", id).Delete(&entity.Clinics{})
+	if res.Error != nil {
+		return 0, res.Error
 	}
 
-	return nil
+	return int(res.RowsAffected), nil
 }

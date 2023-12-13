@@ -88,3 +88,18 @@ func (cl *ClinicImpl) Update(c echo.Context) error {
 
 	return utils.SuccessMessage(c, &utils.ApiUpdate, clinic)
 }
+
+func (cl *ClinicImpl) Delete(c echo.Context) error {
+	param := c.Param("id")
+	id, err := strconv.Atoi(param)
+	if err != nil {
+		return utils.ErrorMessage(c, &utils.ApiBadRequest, "invalid param id")
+	}
+
+	status, err := cl.ClinicService.Delete(c.Request().Context(), id)
+	if err != nil {
+		return helpers.ErrorCheck(c, status, err.Error())
+	}
+
+	return utils.SuccessMessage(c, &utils.ApiDelete, nil)
+}

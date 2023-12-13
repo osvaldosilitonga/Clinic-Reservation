@@ -21,4 +21,5 @@ type Clinic interface {
 	List(ctx context.Context) ([]dto.ClinicRes, int, error)
 	FindByID(ctx context.Context, id int) (*dto.ClinicRes, int, error)
 	Update(ctx context.Context, d *dto.ClinicUpdateReq, id int) (*dto.ClinicRes, int, error)
+	Delete(ctx context.Context, id int) (int, error)
 }

@@ -26,5 +26,5 @@ type Clinic interface {
 	FindByID(c context.Context, id int) (*entity.Clinics, error)
 	List(c context.Context) ([]*entity.Clinics, error)
 	Update(c context.Context, d *entity.Clinics, id int) (*entity.Clinics, error)
-	Delete(c context.Context, id int) error
+	Delete(c context.Context, id int) (int, error)
 }
