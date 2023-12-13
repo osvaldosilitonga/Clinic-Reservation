@@ -3,6 +3,7 @@ package router
 import (
 	"clinic/configs"
 	"clinic/controllers"
+	"clinic/middlewares"
 	"clinic/repositories"
 	"clinic/services"
 
@@ -44,11 +45,11 @@ func Routes(e *echo.Echo) {
 
 	clinic := v1.Group("/clinic")
 	{
-		clinic.POST("", clinicController.CreateClinic)
+		clinic.POST("", clinicController.CreateClinic, middlewares.RequireAuth, middlewares.IsAdmin)
 		clinic.GET("", clinicController.List)
 		clinic.GET("/:id", clinicController.FindByID)
-		clinic.PUT("/:id", clinicController.Update)
-		clinic.DELETE("/:id", clinicController.Delete)
+		clinic.PUT("/:id", clinicController.Update, middlewares.RequireAuth, middlewares.IsAdmin)
+		clinic.DELETE("/:id", clinicController.Delete, middlewares.RequireAuth, middlewares.IsAdmin)
 	}
 
 }
