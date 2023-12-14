@@ -168,3 +168,25 @@ func (a *AppointmentImpl) Confirm(ctx context.Context, id int, email string, pri
 
 	return &res, http.StatusOK, nil
 }
+
+func (a *AppointmentImpl) FindByPatientEmail(ctx context.Context, filter map[string]interface{}) ([]dto.FullAppointmentRes, int, error) {
+	c, cancel := context.WithTimeout(ctx, 5*time.Second)
+	defer cancel()
+
+	// filter := map[string]interface{}{
+	// 	"patient_email": email,
+	// 	"status":        status,
+	// }
+
+	appointments, err := a.AppointmentRepo.FindWithFilter(c, filter)
+	if err != nil {
+		return nil, http.StatusInternalServerError, err
+	}
+
+	var res []dto.FullAppointmentRes
+	for _, appointment := range appointments {
+		res = append(res, *helpers.ToAppointmentResponse(appointment))
+	}
+
+	return res, http.StatusOK, nil
+}

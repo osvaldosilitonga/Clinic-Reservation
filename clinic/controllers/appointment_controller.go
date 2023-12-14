@@ -103,3 +103,30 @@ func (a *AppointmentImpl) ConfirmAppointment(c echo.Context) error {
 
 	return utils.SuccessMessage(c, &utils.ApiUpdate, res)
 }
+
+func (a *AppointmentImpl) FindByEmail(c echo.Context) error {
+	claims, err := helpers.GetClaims(c)
+	if err != nil {
+		return err
+	}
+
+	paramEmail := c.Param("email")
+	if paramEmail != claims.Email && claims.Role != "admin" {
+		return utils.ErrorMessage(c, &utils.ApiForbidden, "you are not authorized to access this data")
+	}
+
+	filter := map[string]interface{}{}
+	filter["patient_email"] = paramEmail
+
+	queryStatus := c.QueryParam("status")
+	if queryStatus != "" {
+		filter["status"] = queryStatus
+	}
+
+	res, code, err := a.AppointmentService.FindByPatientEmail(c.Request().Context(), filter)
+	if err != nil {
+		return helpers.ErrorCheck(c, code, err.Error())
+	}
+
+	return utils.SuccessMessage(c, &utils.ApiOk, res)
+}

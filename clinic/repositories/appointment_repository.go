@@ -48,7 +48,7 @@ func (a *AppointmentImpl) FindByID(c context.Context, id int) (*entity.Appointme
 	return &appointment, nil
 }
 
-func (a *AppointmentImpl) FindWithFilter(c context.Context, filter *map[string]interface{}) ([]*entity.Appointments, error) {
+func (a *AppointmentImpl) FindWithFilter(c context.Context, filter map[string]interface{}) ([]*entity.Appointments, error) {
 	var appointments []*entity.Appointments
 
 	err := a.DB.WithContext(c).Where(filter).Find(&appointments).Error

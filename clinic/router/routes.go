@@ -60,6 +60,7 @@ func Routes(e *echo.Echo) {
 		appointment.POST("", appointmentController.CreateAppointment, middlewares.RequireAuth, middlewares.IsPatient)
 		appointment.DELETE("/cancel/:id", appointmentController.CancelAppointment, middlewares.RequireAuth, middlewares.IsPatient)
 		appointment.PUT("/confirm/:id", appointmentController.ConfirmAppointment, middlewares.RequireAuth, middlewares.IsAdmin)
+		appointment.GET("/:email", appointmentController.FindByEmail, middlewares.RequireAuth)
 	}
 
 }
