@@ -169,6 +169,23 @@ func (a *AppointmentImpl) Confirm(ctx context.Context, id int, email string, pri
 	return &res, http.StatusOK, nil
 }
 
+func (a *AppointmentImpl) FindByID(ctx context.Context, id int) (*dto.FullAppointmentRes, int, error) {
+	c, cancel := context.WithTimeout(ctx, 5*time.Second)
+	defer cancel()
+
+	appointment, err := a.AppointmentRepo.FindByID(c, id)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, http.StatusNotFound, err
+		}
+		return nil, http.StatusInternalServerError, err
+	}
+
+	res := helpers.ToAppointmentResponse(appointment)
+
+	return res, http.StatusOK, nil
+}
+
 func (a *AppointmentImpl) FindByPatientEmail(ctx context.Context, filter map[string]interface{}) ([]dto.FullAppointmentRes, int, error) {
 	c, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()

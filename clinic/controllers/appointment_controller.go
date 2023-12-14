@@ -104,6 +104,30 @@ func (a *AppointmentImpl) ConfirmAppointment(c echo.Context) error {
 	return utils.SuccessMessage(c, &utils.ApiUpdate, res)
 }
 
+func (a *AppointmentImpl) FindByID(c echo.Context) error {
+	claims, err := helpers.GetClaims(c)
+	if err != nil {
+		return err
+	}
+
+	param := c.Param("id")
+	id, err := strconv.Atoi(param)
+	if err != nil {
+		return utils.ErrorMessage(c, &utils.ApiBadRequest, "invalid id")
+	}
+
+	res, status, err := a.AppointmentService.FindByID(c.Request().Context(), id)
+	if err != nil {
+		return helpers.ErrorCheck(c, status, err.Error())
+	}
+
+	if res.PatientEmail != claims.Email && claims.Role != "admin" {
+		return utils.ErrorMessage(c, &utils.ApiForbidden, "you are not authorized to access this data")
+	}
+
+	return utils.SuccessMessage(c, &utils.ApiOk, res)
+}
+
 func (a *AppointmentImpl) FindByEmail(c echo.Context) error {
 	claims, err := helpers.GetClaims(c)
 	if err != nil {
