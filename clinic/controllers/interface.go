@@ -22,4 +22,5 @@ type Clinic interface {
 type Appointment interface {
 	CreateAppointment(c echo.Context) error
 	CancelAppointment(c echo.Context) error
+	ConfirmAppointment(c echo.Context) error
 }

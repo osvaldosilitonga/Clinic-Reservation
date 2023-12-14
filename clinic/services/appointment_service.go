@@ -118,3 +118,53 @@ func (a *AppointmentImpl) Cancel(ctx context.Context, id int, email string) (*dt
 
 	return &res, http.StatusOK, nil
 }
+
+func (a *AppointmentImpl) Confirm(ctx context.Context, id int, email string, price int) (*dto.FullAppointmentRes, int, error) {
+	c, cancel := context.WithTimeout(ctx, 5*time.Second)
+	defer cancel()
+
+	appointment, err := a.AppointmentRepo.FindByID(c, id)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, http.StatusNotFound, err
+		}
+		return nil, http.StatusInternalServerError, err
+	}
+
+	switch appointment.Status {
+	case "canceled":
+		return nil, http.StatusConflict, errors.New("appointment is already canceled")
+	case "success":
+		return nil, http.StatusConflict, errors.New("appointment is already confirmed")
+	}
+
+	update := map[string]interface{}{
+		"employee_username": email,
+		"status":            "success",
+		"price":             price,
+		"updated_at":        time.Now().Unix(),
+	}
+	appointmentUpdate, err := a.AppointmentRepo.Update(c, id, &update)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, http.StatusNotFound, err
+		}
+		return nil, http.StatusInternalServerError, err
+	}
+
+	res := dto.FullAppointmentRes{
+		ID:               appointment.ID,
+		PatientEmail:     appointment.PatientEmail,
+		ClinicID:         appointment.ClinicID,
+		EmployeeUsername: appointmentUpdate.EmployeeUsername,
+		AppointmentDate:  helpers.ConvertTimeLocal(appointment.AppointmentDate),
+		QueueNumber:      appointment.QueueNumber,
+		Status:           appointmentUpdate.Status,
+		Price:            appointmentUpdate.Price,
+		Description:      appointment.Description,
+		CreatedAt:        helpers.ConvertTimeLocal(appointment.CreatedAt),
+		UpdatedAt:        helpers.ConvertTimeLocal(appointment.UpdatedAt),
+	}
+
+	return &res, http.StatusOK, nil
+}

@@ -16,6 +16,10 @@ type CreateAppointmentReq struct {
 	Description     string `json:"description" validate:"required"`
 }
 
+type ConfirmAppointmentReq struct {
+	Price int `json:"price" validate:"required,numeric,min=10000"`
+}
+
 type CreateAppointmentRes struct {
 	ID              uint      `json:"id"`
 	PatientEmail    string    `json:"patient_email"`
@@ -38,4 +42,18 @@ type AppointmentRes struct {
 	Description     string    `json:"description"`
 	CreatedAt       time.Time `json:"created_at"`
 	UpdatedAt       time.Time `json:"updated_at"`
+}
+
+type FullAppointmentRes struct {
+	ID               uint      `json:"id"`
+	PatientEmail     string    `json:"patient_email"`
+	ClinicID         uint      `json:"clinic_id"`
+	EmployeeUsername string    `json:"employee_username"`
+	AppointmentDate  time.Time `json:"appointment_date"`
+	QueueNumber      int       `json:"queue_number"`
+	Status           string    `json:"status"`
+	Price            int       `json:"price"`
+	Description      string    `json:"description"`
+	CreatedAt        time.Time `json:"created_at"`
+	UpdatedAt        time.Time `json:"updated_at"`
 }
