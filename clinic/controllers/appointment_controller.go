@@ -6,6 +6,7 @@ import (
 	"clinic/models/entity"
 	"clinic/services"
 	"clinic/utils"
+	"strconv"
 	"time"
 
 	"github.com/labstack/echo/v4"
@@ -53,4 +54,24 @@ func (a *AppointmentImpl) CreateAppointment(c echo.Context) error {
 	}
 
 	return utils.SuccessMessage(c, &utils.ApiCreate, res)
+}
+
+func (a *AppointmentImpl) CancelAppointment(c echo.Context) error {
+	claims, err := helpers.GetClaims(c)
+	if err != nil {
+		return err
+	}
+
+	param := c.Param("id")
+	id, err := strconv.Atoi(param)
+	if err != nil {
+		return utils.ErrorMessage(c, &utils.ApiBadRequest, "invalid id")
+	}
+
+	res, status, err := a.AppointmentService.Cancel(c.Request().Context(), id, claims.Email)
+	if err != nil {
+		return helpers.ErrorCheck(c, status, err.Error())
+	}
+
+	return utils.SuccessMessage(c, &utils.ApiUpdate, res)
 }

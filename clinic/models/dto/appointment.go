@@ -27,3 +27,15 @@ type CreateAppointmentRes struct {
 	CreatedAt       time.Time `json:"created_at"`
 	UpdatedAt       time.Time `json:"updated_at"`
 }
+
+type AppointmentRes struct {
+	ID              uint      `json:"id"`
+	PatientEmail    string    `json:"patient_email"`
+	ClinicID        uint      `json:"clinic_id"`
+	AppointmentDate time.Time `json:"appointment_date"`
+	QueueNumber     int       `json:"queue_number"`
+	Status          string    `json:"status"`
+	Description     string    `json:"description"`
+	CreatedAt       time.Time `json:"created_at"`
+	UpdatedAt       time.Time `json:"updated_at"`
+}

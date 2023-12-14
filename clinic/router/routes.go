@@ -58,6 +58,7 @@ func Routes(e *echo.Echo) {
 	appointment := v1.Group("/appointment")
 	{
 		appointment.POST("", appointmentController.CreateAppointment, middlewares.RequireAuth, middlewares.IsPatient)
+		appointment.DELETE("/:id", appointmentController.CancelAppointment, middlewares.RequireAuth, middlewares.IsPatient)
 	}
 
 }

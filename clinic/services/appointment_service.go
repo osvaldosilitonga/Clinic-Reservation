@@ -71,3 +71,50 @@ func (a *AppointmentImpl) Create(ctx context.Context, d *entity.Appointments) (*
 
 	return &res, http.StatusCreated, nil
 }
+
+func (a *AppointmentImpl) Cancel(ctx context.Context, id int, email string) (*dto.AppointmentRes, int, error) {
+	c, cancel := context.WithTimeout(ctx, 5*time.Second)
+	defer cancel()
+
+	appointment, err := a.AppointmentRepo.FindByID(c, id)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, http.StatusNotFound, err
+		}
+		return nil, http.StatusInternalServerError, err
+	}
+
+	if appointment.PatientEmail != email {
+		return nil, http.StatusForbidden, errors.New("you are not authorized to cancel this appointment")
+	}
+
+	now := time.Now().Unix()
+	if appointment.AppointmentDate <= now {
+		return nil, http.StatusConflict, errors.New("cannot cancel appointment. please cancel 1 day before the appointment")
+	}
+
+	update := map[string]interface{}{
+		"status": "canceled",
+	}
+	appointmentUpdate, err := a.AppointmentRepo.Update(c, id, &update)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, http.StatusNotFound, err
+		}
+		return nil, http.StatusInternalServerError, err
+	}
+
+	res := dto.AppointmentRes{
+		ID:              appointment.ID,
+		PatientEmail:    appointment.PatientEmail,
+		ClinicID:        appointment.ClinicID,
+		AppointmentDate: helpers.ConvertTimeLocal(appointment.AppointmentDate),
+		QueueNumber:     appointment.QueueNumber,
+		Status:          appointmentUpdate.Status,
+		Description:     appointment.Description,
+		CreatedAt:       helpers.ConvertTimeLocal(appointment.CreatedAt),
+		UpdatedAt:       helpers.ConvertTimeLocal(appointment.UpdatedAt),
+	}
+
+	return &res, http.StatusOK, nil
+}

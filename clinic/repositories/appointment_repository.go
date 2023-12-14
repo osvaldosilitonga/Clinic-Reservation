@@ -37,6 +37,17 @@ func (a *AppointmentImpl) FindByDate(c context.Context, date int64) ([]*entity.A
 	return appointments, nil
 }
 
+func (a *AppointmentImpl) FindByID(c context.Context, id int) (*entity.Appointments, error) {
+	var appointment entity.Appointments
+
+	err := a.DB.WithContext(c).Where("id = ?", id).First(&appointment).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return &appointment, nil
+}
+
 func (a *AppointmentImpl) FindWithFilter(c context.Context, filter *map[string]interface{}) ([]*entity.Appointments, error) {
 	var appointments []*entity.Appointments
 
@@ -57,4 +68,15 @@ func (a *AppointmentImpl) CountRecordClinic(c context.Context, date int64, clini
 	}
 
 	return count, nil
+}
+
+func (a *AppointmentImpl) Update(c context.Context, id int, update *map[string]interface{}) (*entity.Appointments, error) {
+	var appointment entity.Appointments
+
+	err := a.DB.WithContext(c).Model(&appointment).Where("id = ?", id).Updates(update).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return &appointment, nil
 }
