@@ -23,3 +23,7 @@ type Clinic interface {
 	Update(ctx context.Context, d *dto.ClinicUpdateReq, id int) (*dto.ClinicRes, int, error)
 	Delete(ctx context.Context, id int) (int, error)
 }
+
+type Appointment interface {
+	Create(ctx context.Context, d *entity.Appointments) (*dto.CreateAppointmentRes, int, error)
+}

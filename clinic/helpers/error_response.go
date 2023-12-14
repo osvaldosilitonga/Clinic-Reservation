@@ -17,6 +17,8 @@ func ErrorCheck(c echo.Context, code int, msg string) error {
 		return utils.ErrorMessage(c, &utils.ApiForbidden, msg)
 	case http.StatusUnauthorized:
 		return utils.ErrorMessage(c, &utils.ApiUnauthorized, msg)
+	case http.StatusConflict:
+		return utils.ErrorMessage(c, &utils.ApiConflict, msg)
 	default:
 		return utils.ErrorMessage(c, &utils.ApiInternalServer, msg)
 	}

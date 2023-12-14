@@ -28,3 +28,10 @@ type Clinic interface {
 	Update(c context.Context, d *entity.Clinics, id int) (*entity.Clinics, error)
 	Delete(c context.Context, id int) (int, error)
 }
+
+type Appointment interface {
+	Save(c context.Context, d *entity.Appointments) (*entity.Appointments, error)
+	FindByDate(c context.Context, date int64) ([]*entity.Appointments, error)
+	FindWithFilter(c context.Context, filter *map[string]interface{}) ([]*entity.Appointments, error)
+	CountRecordClinic(c context.Context, date int64, clinicID uint, status string) (int64, error)
+}

@@ -21,3 +21,18 @@ func IsAdmin(next echo.HandlerFunc) echo.HandlerFunc {
 		return next(c)
 	}
 }
+
+func IsPatient(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		claims, err := helpers.GetClaims(c)
+		if err != nil {
+			return utils.ErrorMessage(c, &utils.ApiUnauthorized, "Please log in to access this page")
+		}
+
+		if claims.Role != "patient" {
+			return utils.ErrorMessage(c, &utils.ApiForbidden, "You are not authorized to access this page")
+		}
+
+		return next(c)
+	}
+}

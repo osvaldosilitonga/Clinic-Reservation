@@ -18,3 +18,7 @@ type Clinic interface {
 	Update(c echo.Context) error
 	Delete(c echo.Context) error
 }
+
+type Appointment interface {
+	CreateAppointment(c echo.Context) error
+}

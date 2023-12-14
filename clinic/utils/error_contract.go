@@ -23,6 +23,11 @@ var (
 		Status: "forbidden",
 	}
 
+	ApiConflict = dto.ErrWebResponse{
+		Code:   http.StatusConflict,
+		Status: "conflict",
+	}
+
 	ApiInternalServer = dto.ErrWebResponse{
 		Code:   http.StatusInternalServerError,
 		Status: "internal server error",

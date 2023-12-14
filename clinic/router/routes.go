@@ -17,6 +17,7 @@ func Routes(e *echo.Echo) {
 	patientRepository := repositories.NewPatientRepository(db)
 	employeeRepository := repositories.NewEmployeeRepository(db)
 	clinicRepository := repositories.NewClinicRepository(db)
+	appointmentRepository := repositories.NewAppointmentRepository(db)
 
 	// Services
 	userService := services.NewUserService(&services.UserConfig{
@@ -24,6 +25,7 @@ func Routes(e *echo.Echo) {
 	})
 	employeeService := services.NewEmployeeService(employeeRepository)
 	clinicService := services.NewClinicService(clinicRepository)
+	appointmentService := services.NewAppointmentService(appointmentRepository, clinicRepository)
 
 	// Controllers
 	userController := controllers.NewUserController(&controllers.UserConfig{
@@ -31,6 +33,7 @@ func Routes(e *echo.Echo) {
 		EmployeeService: employeeService,
 	})
 	clinicController := controllers.NewClinicController(clinicService)
+	appointmentController := controllers.NewAppointmentController(appointmentService)
 
 	// Routes
 	v1 := e.Group("/api/v1")
@@ -50,6 +53,11 @@ func Routes(e *echo.Echo) {
 		clinic.GET("/:id", clinicController.FindByID)
 		clinic.PUT("/:id", clinicController.Update, middlewares.RequireAuth, middlewares.IsAdmin)
 		clinic.DELETE("/:id", clinicController.Delete, middlewares.RequireAuth, middlewares.IsAdmin)
+	}
+
+	appointment := v1.Group("/appointment")
+	{
+		appointment.POST("", appointmentController.CreateAppointment, middlewares.RequireAuth, middlewares.IsPatient)
 	}
 
 }

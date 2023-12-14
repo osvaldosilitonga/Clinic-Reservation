@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS appointments (
   id SERIAL PRIMARY KEY,
   patient_email VARCHAR(255) NOT NULL REFERENCES patients(email),
   clinic_id INT NOT NULL REFERENCES clinics(id),
-  employee_username VARCHAR(50) NOT NULL REFERENCES employees(username),
+  employee_username VARCHAR(50) REFERENCES employees(username),
   appointment_date BIGINT NOT NULL,
   queue_number INT NOT NULL,
   status VARCHAR(20) NOT NULL,
