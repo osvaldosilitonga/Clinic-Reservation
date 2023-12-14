@@ -75,3 +75,31 @@ func (a *AppointmentImpl) CancelAppointment(c echo.Context) error {
 
 	return utils.SuccessMessage(c, &utils.ApiUpdate, res)
 }
+
+func (a *AppointmentImpl) ConfirmAppointment(c echo.Context) error {
+	claims, err := helpers.GetClaims(c)
+	if err != nil {
+		return err
+	}
+
+	body := dto.ConfirmAppointmentReq{}
+	if err := c.Bind(&body); err != nil {
+		return utils.ErrorMessage(c, &utils.ApiBadRequest, "invalid request body")
+	}
+	if err := c.Validate(&body); err != nil {
+		return utils.ErrorMessage(c, &utils.ApiBadRequest, err.Error())
+	}
+
+	param := c.Param("id")
+	id, err := strconv.Atoi(param)
+	if err != nil {
+		return utils.ErrorMessage(c, &utils.ApiBadRequest, "invalid id")
+	}
+
+	res, status, err := a.AppointmentService.Confirm(c.Request().Context(), id, claims.Email, body.Price)
+	if err != nil {
+		return helpers.ErrorCheck(c, status, err.Error())
+	}
+
+	return utils.SuccessMessage(c, &utils.ApiUpdate, res)
+}
