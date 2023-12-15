@@ -41,6 +41,10 @@ func (a *AppointmentImpl) CreateAppointment(c echo.Context) error {
 		return utils.ErrorMessage(c, &utils.ApiBadRequest, "invalid date format. please use YYYY-MM-DD")
 	}
 
+	if ad.Before(time.Now()) {
+		return utils.ErrorMessage(c, &utils.ApiBadRequest, "appointment schedules can only be set at least one day before")
+	}
+
 	appointment := &entity.Appointments{
 		PatientEmail:    claims.Email,
 		ClinicID:        body.ClinicID,
