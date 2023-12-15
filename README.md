@@ -12,7 +12,7 @@ Swagger Documentation - [localhost:8080/swagger/index.html](http://localhost:808
 
 ### Background
 
-The Clinic Consultation Scheduling System is an application designed to streamline the process of scheduling consultations at a clinic efficiently. This application provides users with the ability to:
+The Clinic Consultation System is an application designed to streamline the process of scheduling consultations at a clinic efficiently. This application provides users with the ability to:
 
 - **Schedule Appointments:** Patients can easily choose a convenient time for consultation, and the system will generate a queue number automatically.
 - **Identity Verification:** The system ensures security by verifying the patient's identity, ensuring the confidentiality of medical information.
@@ -32,8 +32,6 @@ The project is organized following a clear directory structure and implement rep
 
 - **`/clinic`:** This directory contains the source code of the Clinic Consultation Scheduling System.
 
-  - **`/router`:** The router folder houses the routing configuration for the API. Here, you'll find files defining the routes, middleware, and any additional routing-related components.
-
   - **`/controllers`:** Management of the REST interface to the business logic.
 
   - **`/services`:** Business Logic implementation.
@@ -42,9 +40,11 @@ The project is organized following a clear directory structure and implement rep
 
   - **`/models`:** This directory includes the data models for the application. Here, you'll find models for patient, employee, appointments, and any other relevant entities.
 
-  - **`/routes`:** The routes directory manages the endpoint definitions for the API. Each route corresponds to specific actions.
+  - **`/router`:** The router directory manages the endpoint definitions for the API. Each route corresponds to specific actions.
 
   - **`/config`:** Configuration files for the application, including database configuration and other parameters.
+
+  - **`/middlewares`:** The middlewares folder contains middleware components used in processing HTTP requests. Middlewares can include authentication and other cross-cutting concerns that are applied to requests before they reach the route handlers.
 
   - **`/helpers`:** The helpers folder contains utility functions and helper modules used throughout the application. This includes commonly used functions that assist in various tasks, enhancing code maintainability and readability.
 
