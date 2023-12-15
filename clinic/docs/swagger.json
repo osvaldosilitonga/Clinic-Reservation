@@ -343,6 +343,258 @@
                 }
             }
         },
+        "/clinic": {
+            "get": {
+                "description": "List of all clinic.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Clinic"
+                ],
+                "summary": "List of clinic",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.SwListClinicRes"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrWebResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrWebResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new clinic for the logged in admin. You will need an 'Authorization' cookie attached with this request.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Clinic"
+                ],
+                "summary": "Create clinic (admin only)",
+                "parameters": [
+                    {
+                        "description": "Clinic details",
+                        "name": "clinicRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ClinicReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.SwCreateClinicRes"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrWebResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrWebResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrWebResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/clinic/{id}": {
+            "get": {
+                "description": "Find clinic by clinic ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Clinic"
+                ],
+                "summary": "Find By ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Clinic ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.SwCreateClinicRes"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrWebResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrWebResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrWebResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update clinic data by clinic ID for the logged in admin. You will need an 'Authorization' cookie attached with this request.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Clinic"
+                ],
+                "summary": "Update By ID (admin only)",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Clinic ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Clinic details",
+                        "name": "clinicRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ClinicUpdateReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.SwCreateClinicRes"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrWebResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrWebResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrWebResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrWebResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete clinic data by clinic ID for the logged in admin. You will need an 'Authorization' cookie attached with this request.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Clinic"
+                ],
+                "summary": "Delete By ID (admin only)",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Clinic ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.SwDeleteClinicRes"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrWebResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrWebResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrWebResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrWebResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/employee/login": {
             "post": {
                 "description": "Login for employee",
@@ -602,6 +854,84 @@
                 }
             }
         },
+        "dto.ClinicReq": {
+            "type": "object",
+            "required": [
+                "address",
+                "name",
+                "phone",
+                "slot"
+            ],
+            "properties": {
+                "address": {
+                    "type": "string",
+                    "minLength": 5
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 6
+                },
+                "phone": {
+                    "type": "string",
+                    "maxLength": 13,
+                    "minLength": 6
+                },
+                "slot": {
+                    "type": "integer",
+                    "minimum": 1
+                }
+            }
+        },
+        "dto.ClinicRes": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "slot": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.ClinicUpdateReq": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string",
+                    "minLength": 5
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 6
+                },
+                "phone": {
+                    "type": "string",
+                    "maxLength": 13,
+                    "minLength": 6
+                },
+                "slot": {
+                    "type": "integer",
+                    "minimum": 1
+                }
+            }
+        },
         "dto.ConfirmAppointmentReq": {
             "type": "object",
             "required": [
@@ -781,6 +1111,34 @@
                 }
             }
         },
+        "dto.SwCreateClinicRes": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {
+                    "$ref": "#/definitions/dto.ClinicRes"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.SwDeleteClinicRes": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.SwFinByEmailAppointmentRes": {
             "type": "object",
             "properties": {
@@ -791,6 +1149,23 @@
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/dto.FullAppointmentRes"
+                    }
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.SwListClinicRes": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.ClinicRes"
                     }
                 },
                 "status": {

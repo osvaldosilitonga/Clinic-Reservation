@@ -21,6 +21,62 @@ definitions:
       updated_at:
         type: string
     type: object
+  dto.ClinicReq:
+    properties:
+      address:
+        minLength: 5
+        type: string
+      name:
+        maxLength: 50
+        minLength: 6
+        type: string
+      phone:
+        maxLength: 13
+        minLength: 6
+        type: string
+      slot:
+        minimum: 1
+        type: integer
+    required:
+    - address
+    - name
+    - phone
+    - slot
+    type: object
+  dto.ClinicRes:
+    properties:
+      address:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      phone:
+        type: string
+      slot:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  dto.ClinicUpdateReq:
+    properties:
+      address:
+        minLength: 5
+        type: string
+      name:
+        maxLength: 50
+        minLength: 6
+        type: string
+      phone:
+        maxLength: 13
+        minLength: 6
+        type: string
+      slot:
+        minimum: 1
+        type: integer
+    type: object
   dto.ConfirmAppointmentReq:
     properties:
       price:
@@ -142,6 +198,24 @@ definitions:
       status:
         type: string
     type: object
+  dto.SwCreateClinicRes:
+    properties:
+      code:
+        type: integer
+      data:
+        $ref: '#/definitions/dto.ClinicRes'
+      status:
+        type: string
+    type: object
+  dto.SwDeleteClinicRes:
+    properties:
+      code:
+        type: integer
+      data:
+        type: string
+      status:
+        type: string
+    type: object
   dto.SwFinByEmailAppointmentRes:
     properties:
       code:
@@ -149,6 +223,17 @@ definitions:
       data:
         items:
           $ref: '#/definitions/dto.FullAppointmentRes'
+        type: array
+      status:
+        type: string
+    type: object
+  dto.SwListClinicRes:
+    properties:
+      code:
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/dto.ClinicRes'
         type: array
       status:
         type: string
@@ -468,6 +553,176 @@ paths:
       summary: Find By Email (owner and admin)
       tags:
       - Appointment
+  /clinic:
+    get:
+      consumes:
+      - application/json
+      description: List of all clinic.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SwListClinicRes'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+      summary: List of clinic
+      tags:
+      - Clinic
+    post:
+      consumes:
+      - application/json
+      description: Create a new clinic for the logged in admin. You will need an 'Authorization'
+        cookie attached with this request.
+      parameters:
+      - description: Clinic details
+        in: body
+        name: clinicRequest
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ClinicReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.SwCreateClinicRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+      summary: Create clinic (admin only)
+      tags:
+      - Clinic
+  /clinic/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete clinic data by clinic ID for the logged in admin. You will
+        need an 'Authorization' cookie attached with this request.
+      parameters:
+      - description: Clinic ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SwDeleteClinicRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+      summary: Delete By ID (admin only)
+      tags:
+      - Clinic
+    get:
+      consumes:
+      - application/json
+      description: Find clinic by clinic ID.
+      parameters:
+      - description: Clinic ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SwCreateClinicRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+      summary: Find By ID
+      tags:
+      - Clinic
+    put:
+      consumes:
+      - application/json
+      description: Update clinic data by clinic ID for the logged in admin. You will
+        need an 'Authorization' cookie attached with this request.
+      parameters:
+      - description: Clinic ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Clinic details
+        in: body
+        name: clinicRequest
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ClinicUpdateReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SwCreateClinicRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+      summary: Update By ID (admin only)
+      tags:
+      - Clinic
   /employee/login:
     post:
       consumes:

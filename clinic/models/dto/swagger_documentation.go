@@ -43,3 +43,21 @@ type SwFinByEmailAppointmentRes struct {
 	Status string               `json:"status"`
 	Data   []FullAppointmentRes `json:"data"`
 }
+
+type SwCreateClinicRes struct {
+	Code   int       `json:"code"`
+	Status string    `json:"status"`
+	Data   ClinicRes `json:"data"`
+}
+
+type SwListClinicRes struct {
+	Code   int         `json:"code"`
+	Status string      `json:"status"`
+	Data   []ClinicRes `json:"data"`
+}
+
+type SwDeleteClinicRes struct {
+	Code   int    `json:"code"`
+	Status string `json:"status"`
+	Data   string `json:"data"`
+}
