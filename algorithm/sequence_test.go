@@ -32,6 +32,11 @@ func TestFindSequence(t *testing.T) {
 			seq:      []int{7, 10},
 			expected: false,
 		},
+		{
+			main:     m,
+			seq:      []int{5, 6},
+			expected: true,
+		},
 	}
 
 	for _, c := range cases {
