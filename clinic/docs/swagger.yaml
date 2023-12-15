@@ -1,5 +1,68 @@
 basePath: /api/v1
 definitions:
+  dto.AppointmentRes:
+    properties:
+      appointment_date:
+        type: string
+      clinic_id:
+        type: integer
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      patient_email:
+        type: string
+      queue_number:
+        type: integer
+      status:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  dto.ConfirmAppointmentReq:
+    properties:
+      price:
+        minimum: 10000
+        type: integer
+    required:
+    - price
+    type: object
+  dto.CreateAppointmentReq:
+    properties:
+      appointment_date:
+        type: string
+      clinic_id:
+        type: integer
+      description:
+        type: string
+    required:
+    - appointment_date
+    - clinic_id
+    - description
+    type: object
+  dto.CreateAppointmentRes:
+    properties:
+      appointment_date:
+        type: string
+      clinic_id:
+        type: integer
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      patient_email:
+        type: string
+      queue_number:
+        type: integer
+      status:
+        type: string
+      updated_at:
+        type: string
+    type: object
   dto.EmployeeLoginReq:
     properties:
       password:
@@ -33,6 +96,60 @@ definitions:
       code:
         type: integer
       detail: {}
+      status:
+        type: string
+    type: object
+  dto.FullAppointmentRes:
+    properties:
+      appointment_date:
+        type: string
+      clinic_id:
+        type: integer
+      created_at:
+        type: string
+      description:
+        type: string
+      employee_username:
+        type: string
+      id:
+        type: integer
+      patient_email:
+        type: string
+      price:
+        type: integer
+      queue_number:
+        type: integer
+      status:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  dto.SwCancelAppointmentRes:
+    properties:
+      code:
+        type: integer
+      data:
+        $ref: '#/definitions/dto.AppointmentRes'
+      status:
+        type: string
+    type: object
+  dto.SwCreateAppointmentRes:
+    properties:
+      code:
+        type: integer
+      data:
+        $ref: '#/definitions/dto.CreateAppointmentRes'
+      status:
+        type: string
+    type: object
+  dto.SwFinByEmailAppointmentRes:
+    properties:
+      code:
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/dto.FullAppointmentRes'
+        type: array
       status:
         type: string
     type: object
@@ -130,6 +247,227 @@ info:
   title: Zi.Care Clinic - API Documentation
   version: BETA
 paths:
+  /appointment:
+    post:
+      consumes:
+      - application/json
+      description: Create a new appointment for the logged in patient. You will need
+        an 'Authorization' cookie attached with this request.
+      parameters:
+      - description: Appointment details
+        in: body
+        name: appointmentRequest
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateAppointmentReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.SwCreateAppointmentRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+      summary: Create appointment (patient only)
+      tags:
+      - Appointment
+  /appointment/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Find appointment by appointment ID. You will need an 'Authorization'
+        cookie attached with this request.
+      parameters:
+      - description: Appointment ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SwCancelAppointmentRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+      summary: Find By ID (owner and admin)
+      tags:
+      - Appointment
+  /appointment/cancel/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Cancel scheduled appointment for the logged in patient. You will
+        need an 'Authorization' cookie attached with this request.
+      parameters:
+      - description: Appointment ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SwCancelAppointmentRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+      summary: Cancel appointment (patient only)
+      tags:
+      - Appointment
+  /appointment/confirm/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Confirm appointment and change status to success for the logged
+        in admin. You will need an 'Authorization' cookie attached with this request.
+      parameters:
+      - description: Appointment ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Appointment details
+        in: body
+        name: appointmentRequest
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ConfirmAppointmentReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SwCancelAppointmentRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+      summary: Confirm appointment (admin only)
+      tags:
+      - Appointment
+  /appointment/email/{email}:
+    get:
+      consumes:
+      - application/json
+      description: Find appointment by patient email. You will need an 'Authorization'
+        cookie attached with this request.
+      parameters:
+      - description: Patient Email
+        in: path
+        name: email
+        required: true
+        type: string
+      - description: Filter by appointment status
+        in: query
+        name: status
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SwFinByEmailAppointmentRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrWebResponse'
+      summary: Find By Email (owner and admin)
+      tags:
+      - Appointment
   /employee/login:
     post:
       consumes:

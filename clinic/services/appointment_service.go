@@ -190,13 +190,12 @@ func (a *AppointmentImpl) FindByPatientEmail(ctx context.Context, filter map[str
 	c, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 
-	// filter := map[string]interface{}{
-	// 	"patient_email": email,
-	// 	"status":        status,
-	// }
-
 	appointments, err := a.AppointmentRepo.FindWithFilter(c, filter)
 	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, http.StatusNotFound, err
+		}
+
 		return nil, http.StatusInternalServerError, err
 	}
 

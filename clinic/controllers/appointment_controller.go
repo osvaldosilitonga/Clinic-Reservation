@@ -22,6 +22,18 @@ func NewAppointmentController(as services.Appointment) Appointment {
 	}
 }
 
+// @Summary 	Create appointment (patient only)
+// @Description Create a new appointment for the logged in patient. You will need an 'Authorization' cookie attached with this request.
+// @Tags 		Appointment
+// @Accept 		json
+// @Produce 	json
+// @Param 		appointmentRequest body dto.CreateAppointmentReq true "Appointment details"
+// @Success 	201 {object} dto.SwCreateAppointmentRes
+// @Failure 	400 {object} dto.ErrWebResponse
+// @Failure 	401 {object} dto.ErrWebResponse
+// @Failure 	409 {object} dto.ErrWebResponse
+// @Failure 	500 {object} dto.ErrWebResponse
+// @Router 		/appointment [post]
 func (a *AppointmentImpl) CreateAppointment(c echo.Context) error {
 	claims, err := helpers.GetClaims(c)
 	if err != nil {
@@ -60,6 +72,20 @@ func (a *AppointmentImpl) CreateAppointment(c echo.Context) error {
 	return utils.SuccessMessage(c, &utils.ApiCreate, res)
 }
 
+// @Summary 	Cancel appointment (patient only)
+// @Description Cancel scheduled appointment for the logged in patient. You will need an 'Authorization' cookie attached with this request.
+// @Tags 		Appointment
+// @Accept 		json
+// @Produce 	json
+// @Param 			id path string true "Appointment ID"
+// @Success 	200 {object} dto.SwCancelAppointmentRes
+// @Failure 	400 {object} dto.ErrWebResponse
+// @Failure 	401 {object} dto.ErrWebResponse
+// @Failure 	403 {object} dto.ErrWebResponse
+// @Failure 	404 {object} dto.ErrWebResponse
+// @Failure 	409 {object} dto.ErrWebResponse
+// @Failure 	500 {object} dto.ErrWebResponse
+// @Router 		/appointment/cancel/{id} [delete]
 func (a *AppointmentImpl) CancelAppointment(c echo.Context) error {
 	claims, err := helpers.GetClaims(c)
 	if err != nil {
@@ -80,6 +106,20 @@ func (a *AppointmentImpl) CancelAppointment(c echo.Context) error {
 	return utils.SuccessMessage(c, &utils.ApiUpdate, res)
 }
 
+// @Summary 	Confirm appointment (admin only)
+// @Description Confirm appointment and change status to success for the logged in admin. You will need an 'Authorization' cookie attached with this request.
+// @Tags 		Appointment
+// @Accept 		json
+// @Produce 	json
+// @Param 			id path string true "Appointment ID"
+// @Param 		appointmentRequest body dto.ConfirmAppointmentReq true "Appointment details"
+// @Success 	200 {object} dto.SwCancelAppointmentRes
+// @Failure 	400 {object} dto.ErrWebResponse
+// @Failure 	401 {object} dto.ErrWebResponse
+// @Failure 	404 {object} dto.ErrWebResponse
+// @Failure 	409 {object} dto.ErrWebResponse
+// @Failure 	500 {object} dto.ErrWebResponse
+// @Router 		/appointment/confirm/{id} [put]
 func (a *AppointmentImpl) ConfirmAppointment(c echo.Context) error {
 	claims, err := helpers.GetClaims(c)
 	if err != nil {
@@ -108,6 +148,19 @@ func (a *AppointmentImpl) ConfirmAppointment(c echo.Context) error {
 	return utils.SuccessMessage(c, &utils.ApiUpdate, res)
 }
 
+// @Summary 	Find By ID (owner and admin)
+// @Description Find appointment by appointment ID. You will need an 'Authorization' cookie attached with this request.
+// @Tags 		Appointment
+// @Accept 		json
+// @Produce 	json
+// @Param 			id path string true "Appointment ID"
+// @Success 	200 {object} dto.SwCancelAppointmentRes
+// @Failure 	400 {object} dto.ErrWebResponse
+// @Failure 	401 {object} dto.ErrWebResponse
+// @Failure 	403 {object} dto.ErrWebResponse
+// @Failure 	404 {object} dto.ErrWebResponse
+// @Failure 	500 {object} dto.ErrWebResponse
+// @Router 		/appointment/{id} [get]
 func (a *AppointmentImpl) FindByID(c echo.Context) error {
 	claims, err := helpers.GetClaims(c)
 	if err != nil {
@@ -132,6 +185,20 @@ func (a *AppointmentImpl) FindByID(c echo.Context) error {
 	return utils.SuccessMessage(c, &utils.ApiOk, res)
 }
 
+// @Summary 	Find By Email (owner and admin)
+// @Description Find appointment by patient email. You will need an 'Authorization' cookie attached with this request.
+// @Tags 		Appointment
+// @Accept 		json
+// @Produce 	json
+// @Param 			email path string true "Patient Email"
+// @Param        status    query     string  false  "Filter by appointment status"
+// @Success 	200 {object} dto.SwFinByEmailAppointmentRes
+// @Failure 	400 {object} dto.ErrWebResponse
+// @Failure 	401 {object} dto.ErrWebResponse
+// @Failure 	403 {object} dto.ErrWebResponse
+// @Failure 	404 {object} dto.ErrWebResponse
+// @Failure 	500 {object} dto.ErrWebResponse
+// @Router 		/appointment/email/{email} [get]
 func (a *AppointmentImpl) FindByEmail(c echo.Context) error {
 	claims, err := helpers.GetClaims(c)
 	if err != nil {
