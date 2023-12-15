@@ -1,0 +1,480 @@
+_type: export
+__export_format: 4
+__export_date: 2023-12-15T10:30:26.888Z
+__export_source: insomnia.desktop.app:v8.4.5
+resources:
+  - _id: req_cc6049ce511849c8ab104f21109aeae4
+    parentId: fld_71fa636e105d407e89bc3bbfde156a38
+    modified: 1702587269585
+    created: 1702587213910
+    url: localhost:8080/api/v1/appointment/20
+    name: Find by Appointment ID
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/8.4.5
+    authentication: {}
+    metaSortKey: -1702587213910
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_71fa636e105d407e89bc3bbfde156a38
+    parentId: wrk_610526efc6d04ed1ba30712f6c1e6412
+    modified: 1702550789172
+    created: 1702550789172
+    name: Appointment
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1702550789172
+    _type: request_group
+  - _id: wrk_610526efc6d04ed1ba30712f6c1e6412
+    parentId: null
+    modified: 1702365625147
+    created: 1702365625147
+    name: Zi.Care - Clinic
+    description: ""
+    scope: collection
+    _type: workspace
+  - _id: req_0a5077b91c6b45c594ef832e93bd67e8
+    parentId: fld_71fa636e105d407e89bc3bbfde156a38
+    modified: 1702587201965
+    created: 1702581541639
+    url: localhost:8080/api/v1/appointment/email/jane@example.com
+    name: Find by Email
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/8.4.5
+    authentication: {}
+    metaSortKey: -1702581541639
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_be899ad4f4884695aac03aad7f68d5cd
+    parentId: fld_71fa636e105d407e89bc3bbfde156a38
+    modified: 1702574328130
+    created: 1702572698298
+    url: localhost:8080/api/v1/appointment/confirm/17
+    name: Confirm Appointment (Admin)
+    description: ""
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"price": 100000
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/8.4.5
+    authentication: {}
+    metaSortKey: -1702572698298
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_827f8b2159fa4a29a2998d8e4756087f
+    parentId: fld_71fa636e105d407e89bc3bbfde156a38
+    modified: 1702574026853
+    created: 1702569248212
+    url: localhost:8080/api/v1/appointment/cancel/24
+    name: Cancel Appointment (Patient)
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/8.4.5
+    authentication: {}
+    metaSortKey: -1702569248212
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_cdeaad3c92894c4a8091ace44a617889
+    parentId: fld_71fa636e105d407e89bc3bbfde156a38
+    modified: 1702615068644
+    created: 1702550791866
+    url: localhost:8080/api/v1/appointment
+    name: Create New Appointment (Patient)
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"clinic_id": 2,
+        	"appointment_date": "2023-12-15",
+        	"description": "konsultasi tangan"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/8.4.5
+    authentication: {}
+    metaSortKey: -1702550791866
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_ebc25eb032cd43db98e68d62e2700891
+    parentId: wrk_610526efc6d04ed1ba30712f6c1e6412
+    modified: 1702440564262
+    created: 1702440508553
+    url: localhost:8080/api/v1/employee/login
+    name: Employee Login
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"username": "admin",
+        	"password": "password123"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/8.4.5
+    authentication: {}
+    metaSortKey: -1702440508553
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_130e455c3ab24dc3b4c3ecddd74f8999
+    parentId: wrk_610526efc6d04ed1ba30712f6c1e6412
+    modified: 1702440464767
+    created: 1702439689837
+    url: localhost:8080/api/v1/employee/register
+    name: Employee Register
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"username": "admin",
+        	"password": "password123"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/8.4.5
+    authentication: {}
+    metaSortKey: -1702439689838
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_023c816b454a407ab381015d251254d1
+    parentId: wrk_610526efc6d04ed1ba30712f6c1e6412
+    modified: 1702398308716
+    created: 1702398286850
+    url: localhost:8080/api/v1/logout
+    name: Logout
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/8.4.5
+    authentication: {}
+    metaSortKey: -1702398286850
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_f427262f278e402f8562d0f4fade18c2
+    parentId: wrk_610526efc6d04ed1ba30712f6c1e6412
+    modified: 1702587321999
+    created: 1702397892858
+    url: localhost:8080/api/v1/login
+    name: Patient Login
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"email": "john@example.com",
+        	"password": "password"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/8.4.5
+    authentication: {}
+    metaSortKey: -1702397892858
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_e43cb4ff4e2a4991aee4dc2ebd814ef7
+    parentId: wrk_610526efc6d04ed1ba30712f6c1e6412
+    modified: 1702570624197
+    created: 1702365669611
+    url: localhost:8080/api/v1/register
+    name: Patient Register
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"email": "john@example.com",
+        	"password": "password",
+        	"name": "john doe",
+        	"phone": "08221234567",
+        	"gender": "pria",
+        	"address": "jalan example",
+        	"birth": "2000-09-20"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/8.4.5
+    authentication: {}
+    metaSortKey: -1702365669611
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_461d644e6b6b418290d1a0911109d0b8
+    parentId: fld_dcb0cb3d99fa4db2804078a367da6ae6
+    modified: 1702573698910
+    created: 1702458555494
+    url: localhost:8080/api/v1/clinic/2
+    name: Delete Clinic (Admin)
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/8.4.5
+    authentication: {}
+    metaSortKey: -1702458555494
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_dcb0cb3d99fa4db2804078a367da6ae6
+    parentId: wrk_610526efc6d04ed1ba30712f6c1e6412
+    modified: 1702550774113
+    created: 1702365646900
+    name: Clinic
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1702365646900
+    _type: request_group
+  - _id: req_6495cc4cbd7240beb5ba9526fb32d4c3
+    parentId: fld_dcb0cb3d99fa4db2804078a367da6ae6
+    modified: 1702573706488
+    created: 1702455625051
+    url: localhost:8080/api/v1/clinic/5
+    name: Update Clinic (Admin)
+    description: ""
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"name": "update test bekasi",
+        	"address": "bandung",
+        	"phone": "08222222",
+        	"slot": 15
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/8.4.5
+    authentication: {}
+    metaSortKey: -1702455625051
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_2d05f8da241d4c398e70fc9c5edf3c2d
+    parentId: fld_dcb0cb3d99fa4db2804078a367da6ae6
+    modified: 1702474728551
+    created: 1702454020050
+    url: localhost:8080/api/v1/clinic/5
+    name: Find by Clinic ID
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/8.4.5
+    authentication: {}
+    metaSortKey: -1702454020050
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_82cd7c3a261946a7a91cd341d173b13d
+    parentId: fld_dcb0cb3d99fa4db2804078a367da6ae6
+    modified: 1702450233525
+    created: 1702450210521
+    url: localhost:8080/api/v1/clinic
+    name: Lists Clinic
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/8.4.5
+    authentication: {}
+    metaSortKey: -1702450210521
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_ff97191287c246e38b2a2717a033d1b3
+    parentId: fld_dcb0cb3d99fa4db2804078a367da6ae6
+    modified: 1702573717760
+    created: 1702443536828
+    url: localhost:8080/api/v1/clinic
+    name: Create New Clinic (Admin)
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"name": "test clinic 1",
+        	"address": "depok",
+        	"phone": "0822123456",
+        	"slot": 3
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/8.4.5
+    authentication: {}
+    metaSortKey: -1702443536828
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: env_89f108277f3c5f1809e43c99532b5c6b7f22383e
+    parentId: wrk_610526efc6d04ed1ba30712f6c1e6412
+    modified: 1702365625158
+    created: 1702365625158
+    name: Base Environment
+    data: {}
+    dataPropertyOrder: null
+    color: null
+    isPrivate: false
+    metaSortKey: 1702365625158
+    _type: environment
+  - _id: jar_89f108277f3c5f1809e43c99532b5c6b7f22383e
+    parentId: wrk_610526efc6d04ed1ba30712f6c1e6412
+    modified: 1702620710356
+    created: 1702365625162
+    name: Default Jar
+    cookies:
+      - key: Authorization
+        value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5AZXhhbXBsZS5jb20iLCJleHAiOjE3MDI2MzUxMTAsImlkIjoxLCJyb2xlIjoicGF0aWVudCJ9.q69TzjegbCnea9hm2u09ltxqxTjKCuViuU5OADjiOTs
+        expires: 2023-12-15T08:11:50.000Z
+        domain: localhost
+        path: /
+        httpOnly: true
+        hostOnly: true
+        creation: 2023-12-12T16:24:36.300Z
+        lastAccessed: 2023-12-15T06:11:50.356Z
+        sameSite: lax
+        id: 3aef1e88-6214-4913-81fc-37c10124a481
+    _type: cookie_jar
