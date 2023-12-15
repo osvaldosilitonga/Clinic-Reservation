@@ -27,6 +27,16 @@ func NewUserController(uc *UserConfig) User {
 	}
 }
 
+// @Summary 	Patient Register
+// @Description Register new patient
+// @Tags 			Default
+// @Accept 		json
+// @Produce 	json
+// @Param 		data body dto.UserRegisterReq true "Patient Data"
+// @Success 	201 {object} dto.SwUserRegisterRes
+// @Failure 	400 {object} dto.ErrWebResponse
+// @Failure 	500 {object} dto.ErrWebResponse
+// @Router 		/register [post]
 func (u *UserImpl) Register(c echo.Context) error {
 	body := dto.UserRegisterReq{}
 	if err := c.Bind(&body); err != nil {
@@ -44,6 +54,17 @@ func (u *UserImpl) Register(c echo.Context) error {
 	return utils.SuccessMessage(c, &utils.ApiCreate, user)
 }
 
+// @Summary 	Patient Login
+// @Description Login for patient
+// @Tags 			Default
+// @Accept 		json
+// @Produce 	json
+// @Param 		data body dto.UserLoginReq true "Patient Credentials"
+// @Success 	200 {object} dto.SwLoginRes
+// @Failure 	400 {object} dto.ErrWebResponse
+// @Failure 	404 {object} dto.ErrWebResponse
+// @Failure 	500 {object} dto.ErrWebResponse
+// @Router 		/login [post]
 func (u *UserImpl) Login(c echo.Context) error {
 	body := dto.UserLoginReq{}
 	if err := c.Bind(&body); err != nil {
@@ -65,6 +86,14 @@ func (u *UserImpl) Login(c echo.Context) error {
 	return utils.SuccessMessage(c, &utils.ApiOk, "Login Success. Authorization token has been set to cookie")
 }
 
+// @Summary 	Logout the user
+// @Description Logout the currently authenticated user and clears the authorization cookie
+// @Tags        Default
+// @Accept 		json
+// @Produce 	json
+// @Success 	200 {object} dto.SwLoginRes
+// @Failure 	500 {object} dto.ErrWebResponse
+// @Router 		/logout [get]
 func (u *UserImpl) Logout(c echo.Context) error {
 	cookie := new(http.Cookie)
 	cookie.Name = "Authorization"
@@ -78,6 +107,16 @@ func (u *UserImpl) Logout(c echo.Context) error {
 	return utils.SuccessMessage(c, &utils.ApiOk, "Logout Success. Authorization token has been removed from cookie")
 }
 
+// @Summary 	Employee Register
+// @Description Register new employee
+// @Tags 			Default
+// @Accept 		json
+// @Produce 	json
+// @Param 		data body dto.EmployeeRegisterReq true "Employee Data"
+// @Success 	201 {object} dto.SwUserRegisterRes
+// @Failure 	400 {object} dto.ErrWebResponse
+// @Failure 	500 {object} dto.ErrWebResponse
+// @Router 		/employee/register [post]
 func (u *UserImpl) EmployeeRegister(c echo.Context) error {
 	body := dto.EmployeeRegisterReq{}
 	if err := c.Bind(&body); err != nil {
@@ -95,6 +134,17 @@ func (u *UserImpl) EmployeeRegister(c echo.Context) error {
 	return utils.SuccessMessage(c, &utils.ApiCreate, employee)
 }
 
+// @Summary 	Employee Login
+// @Description Login for employee
+// @Tags 			Default
+// @Accept 		json
+// @Produce 	json
+// @Param 		data body dto.EmployeeLoginReq true "Employee Credentials"
+// @Success 	200 {object} dto.SwLoginRes
+// @Failure 	400 {object} dto.ErrWebResponse
+// @Failure 	404 {object} dto.ErrWebResponse
+// @Failure 	500 {object} dto.ErrWebResponse
+// @Router 		/employee/login [post]
 func (u *UserImpl) EmployeeLogin(c echo.Context) error {
 	body := dto.EmployeeLoginReq{}
 	if err := c.Bind(&body); err != nil {
