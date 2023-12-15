@@ -1,5 +1,11 @@
 # Clinic Reservation
 
+**NOTE :** Algorithm folder contains a logic to find a number sequence inside an array of numbers. To run the test file, go to alogrithm folder and run:
+
+```bash
+ $ go test
+```
+
 ## Description
 
 Swagger Documentation - [localhost:8080/swagger/index.html](http://localhost:8080/swagger/index.html)
