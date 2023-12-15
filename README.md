@@ -18,6 +18,14 @@ The Clinic Consultation System is an application designed to streamline the proc
 - **Identity Verification:** The system ensures security by verifying the patient's identity, ensuring the confidentiality of medical information.
 - **Ability to Cancel Appointments:** Users have the option to cancel their scheduled appointments through the application, providing flexibility in managing their schedules.
 
+### Tech Stacks:
+
+- Go
+- Echo
+- PostgreSQL
+- REST
+- JWT
+
 ## Database Schema - ERD
 
 The System utilizes PostgreSQL as its underlying database management system. PostgreSQL is a powerful, open-source relational database that provides robust support for handling complex data structures and ensuring data integrity.
