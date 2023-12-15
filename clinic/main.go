@@ -2,21 +2,19 @@ package main
 
 import (
 	"clinic/helpers"
+	"clinic/initializers"
 	"clinic/router"
 	"fmt"
-	"log"
 	"os"
 
 	"github.com/go-playground/validator"
-	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
 
 func init() {
-	if err := godotenv.Load(); err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	initializers.LoadEnvFile()
+	initializers.RunDBMigrations(os.Getenv("MIGRATION_URL"), os.Getenv("DB_PG_STRING"))
 }
 
 func main() {

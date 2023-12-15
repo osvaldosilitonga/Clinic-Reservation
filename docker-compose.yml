@@ -11,3 +11,19 @@ services:
       - POSTGRES_DB=zicare-clinic
     networks:
       - default
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U root -d zicare-clinic"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  clinic:
+    build:
+      context: ./clinic
+    ports:
+      - "8080:8080"
+    networks:
+      - default
+    depends_on:
+      db:
+        condition: service_healthy
